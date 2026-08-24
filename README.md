@@ -13,7 +13,7 @@ Prototipo fullstack gerado para cadastro de pedidos, desenvolvido com React, Exp
 ### Backend
 1. Entre na pasta `backend`: `cd backend`
 2. Instale as dependências: `npm install`
-3. Configure as variáveis no arquivo `.env` (DATABASE_URL, ORIGEM_DO_FRONTEND)
+3. Configure as variáveis no arquivo `.env.example` (DATABASE_URL, ORIGEM_DO_FRONTEND)
 4. Sincronize o banco de dados: `npx prisma db push`
 5. Inicie a API: `npm run dev`
 
