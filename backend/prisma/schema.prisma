@@ -12,9 +12,57 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Order {
-  id        Int      @id @default(autoincrement())
-  order      String
-  item     String
-  createdAt DateTime @default(now())
+enum ProfileType {
+  SUPERADMIN
+  ADMIN
+  CLIENT
+}
+
+//Tabela User
+model User {
+  id Int @id @default(autoincrement())
+  profile ProfileType @default(CLIENT)
+  password String @db.VarChar(256)
+
+  name String? @db.VarChar(255)
+  email String? @unique @db.VarChar(255)
+
+  @@map("users")
+}
+
+//Tabela Category
+model Category {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(255)
+  products Product[]
+
+  @@map("categories")
+}
+
+//Tabela Product
+
+model Product {
+  id Int @id @default(autoincrement())
+  categoryId Int @map("category_id")
+  viewCount Int @default(0) @map("view_count")
+  description String @db.Text
+  price Float
+
+  category Category @relations(fields: [categoryId], references: [id])
+  images ProductImage[]
+
+  @@map("products")
+}
+
+//Tabela ProductImage
+
+model ProductImage {
+  id Int @id @default(autoincrement())
+  productId Int @map("product_id")
+  url String @db.VarChar(255)
+  color String @db.VarChar(100)
+
+  product Product @relations(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_images")
 }
