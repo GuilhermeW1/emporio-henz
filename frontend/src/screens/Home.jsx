@@ -49,7 +49,7 @@ export function Home() {
 
         <span className="mb-3 block font-medium">Vistos recentemente</span>
 
-        <div className="flex gap-3">
+        <div className="flex gap-3 mb-14">
           <RecentViewCard />
           <RecentViewCard />
         </div>
