@@ -1,6 +1,6 @@
 export function AboutUs() {
   return (
-    <div className="w-full">
+    <div className="w-full mb-12">
       <div className="bg-[url('/aboutUs/AboutUsBackground.png')] bg-cover w-full h-68 flex justify-center items-center">
         <img
           src="/aboutUs/vertical-logo.png"
