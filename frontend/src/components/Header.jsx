@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -146,12 +146,15 @@ export default function Header() {
               <span className="text-white text-sm hidden lg:block">Salvos</span>
             </div>
 
-            <div className="lg:h-[46px] lg:flex lg:flex-col lg:items-center">
+            <Link
+              to="conta"
+              className="lg:h-[46px] lg:flex lg:flex-col lg:items-center"
+            >
               <img src="/Perfil.png" alt="perfil" className="h-6.5 w-6.5" />
               <span className="text-white text-sm hidden lg:block">
                 Minha conta
               </span>
-            </div>
+            </Link>
           </div>
         </div>
 

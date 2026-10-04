@@ -1,6 +1,6 @@
 export function Footer() {
   return (
-    <div className="mt-16 bg-[#123854] h-[555px] flex-col justify-center pl-3 pr-3 text-sm">
+    <div className=" bg-[#123854] h-[555px] flex-col justify-center pl-3 pr-3 text-sm">
       <div className="pt-8 flex justify-center">
         <img src="/logo-footer.png" alt="logo" />
       </div>
