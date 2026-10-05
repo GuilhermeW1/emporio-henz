@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Input } from "../components/Inut";
+import { Input } from "../components/Input";
 import { PasswordInput } from "../components/PasswordInput";
 
 export function Login() {
