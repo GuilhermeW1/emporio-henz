@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
 import { User, ProfileType } from "../models/User.js";
 
@@ -20,7 +21,9 @@ async function main() {
         const [salt, hash] = adminModel.password.split(":");
 
         await prisma.user.upsert({
-            data: {
+            where: {email: adminEmail},
+            update: {},
+            create: {
                 name: adminModel.name,
                 email: adminModel.email,
                 password: hash,
