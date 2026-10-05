@@ -19,7 +19,7 @@ async function main() {
         const adminModel = new User(null, "Administrador Henz", adminEmail, ProfileType.ADMIN, adminPassword);
         const [salt, hash] = adminModel.password.split(":");
 
-        await prisma.user.create({
+        await prisma.user.upsert({
             data: {
                 name: adminModel.name,
                 email: adminModel.email,
