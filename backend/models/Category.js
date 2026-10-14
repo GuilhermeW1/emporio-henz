@@ -19,6 +19,9 @@ export class Category {
     }
 
     set name(value){
-        this._name = value;
+        if (!value || typeof value !== "string" || value.trim().length < 2) {
+            throw new error("O nome da categoria deve ser um texto com no minimo 2 caracteres");
+        }
+        this._name = value.trim();
     }
 }
