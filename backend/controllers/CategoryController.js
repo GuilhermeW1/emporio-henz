@@ -120,10 +120,25 @@ export const updateCategory = async (req, res) => {
 export const deleteCategory = async (req, res)=> {
     try {
         const id = Number(req.params.id);
+
+        if (isNaN(id)) {
+            return res.status(400).json({ error: "O ID da categoria deve ser um número valido." });
+        }
         
         const categoryExists = await prisma.category.findUnique({ where: { id }});
         if(!categoryExists) {
-            return res.status(404).json("Categoria nao encontrada");
+            return res.status(404).json({error: "Categoria nao encontrada"});
+        }
+
+        //impedir exclusao caso tenha produtos vinculados
+        const linkedProducts = await prisma.product.findFirst({
+            where: { categoryId: id}
+        });
+
+        if (linkedProducts) {
+            return res.status(400).json({
+                error: "Nao e possivel remover essa categoria pois ha produtos associados"
+            });
         }
 
         await prisma.category.delete({ where: { id }});
