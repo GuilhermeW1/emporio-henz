@@ -72,3 +72,79 @@ export const getCategoryById = async (req, res) => {
         return res.status(500).json({error: error.message});
     }
 };
+
+export const updateCategory = async (req, res) => {
+    try {
+        const id = Number(req.params.id);
+        const {name} = req.body ?? {};
+
+        if (isNaN(id)) {
+            return res.status(400).json({ error: "O Id da categoria deve ser um numer"});
+        }
+
+        const existingCategory = await prisma.category.findUnique({where: { id }});
+        if (!existingCategory) {
+            return res.status(404).json({error: "Categoria nao encontrada"});
+        }
+
+        const categoryModel = new Category(id, name ?? existingCategory.name);
+
+        if (categoryModel.name !== existingCategory.name) {
+            const nameConflict = await prisma.category.findFirst({
+                where: {
+                    name: categoryModel.name,
+                    NOT: { id }
+                }
+            });
+
+            if (nameConflict) {
+                return res.status(400).json({error: "Ja existe outra categoria com esse nome"});
+            }
+        }
+
+        const updatedCategory = await prisma.category.update ({
+            where: { id },
+            data: {name: categoryModel.name},
+            select: {id: true, name: true}
+        });
+
+        return res.status(200).json({
+            message: "Categoria atualizada!",
+            category: updatedCategory
+        });
+    } catch (error) {
+        return res.status(400).json({error: error.message});
+    }
+};
+
+export const deleteCategory = async (req, res)=> {
+    try {
+        const id = Number(req.params.id);
+
+        if (isNaN(id)) {
+            return res.status(400).json({ error: "O ID da categoria deve ser um número valido." });
+        }
+        
+        const categoryExists = await prisma.category.findUnique({ where: { id }});
+        if(!categoryExists) {
+            return res.status(404).json({error: "Categoria nao encontrada"});
+        }
+
+        //impedir exclusao caso tenha produtos vinculados
+        const linkedProducts = await prisma.product.findFirst({
+            where: { categoryId: id}
+        });
+
+        if (linkedProducts) {
+            return res.status(400).json({
+                error: "Nao e possivel remover essa categoria pois ha produtos associados"
+            });
+        }
+
+        await prisma.category.delete({ where: { id }});
+
+        return res.status(200).json({message: "Categoria deletada"});
+    } catch (error) {
+        return res.status(500).json({error: error.message});
+    }
+};
