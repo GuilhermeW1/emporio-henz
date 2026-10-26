@@ -12,10 +12,6 @@ async function main() {
         throw new Error("Erro: variaveis ADMIN_EMAIL e ADMIN_PASSWORD devems ser definidas em arquivo .env");
     }
 
-    //verifica se admin ja existe
-    const existingAdmin = await prisma.user.findUnique({ where: { email: adminEmail } });
-
-    if (!existingAdmin) {
         //usa o User para gerar o hash da senha padrão
         const adminModel = new User(null, "Administrador Henz", adminEmail, ProfileType.ADMIN, adminPassword);
         const [salt, hash] = adminModel.password.split(":");
@@ -31,10 +27,7 @@ async function main() {
                 profile: ProfileType.ADMIN
             }
         });
-        console.log("usuario admin unico criado com sucesso");
-    } else {
-        console.log("usuario admin ja existe no banco")
-    }
+        console.log("Seed de admin criado com sucesso");
 }
 
 main()
