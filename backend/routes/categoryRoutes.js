@@ -10,11 +10,11 @@ import {requireAdmin} from "../middlewares/auth.js";
 
 const router = Router();
 
-router.get("/categories", getAllCategories);
-router.get("/categories/:id", getCategoryById);
+router.get("/", getAllCategories);
+router.get("/:id", getCategoryById);
 
-router.post("/categories", requireAdmin, registerCategory);
-router.put("/categories/:id", requireAdmin, updateCategory);
-router.delete("/categories/:id", requireAdmin, deleteCategory);
+router.post("/", requireAdmin, registerCategory);
+router.put("/:id", requireAdmin, updateCategory);
+router.delete("/:id", requireAdmin, deleteCategory);
 
 export default router;

@@ -57,7 +57,7 @@ export const loginUser = async (req, res) => {
             return res.status(401).json({ error: "Credenciais invalidas." });
         }
 
-        //reconstroi a string salt:hash que o seu User espera
+        //reconstroi a string salt:hash que o User espera
         const storedPasswordCombined = `${dbUser.salt}:${dbUser.password}`;
 
         //instancia o User com o hash vindo do banco
