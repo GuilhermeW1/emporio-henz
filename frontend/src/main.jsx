@@ -6,6 +6,7 @@ import { Account } from "./screens/Account.jsx";
 import { CreateAccount } from "./screens/CreateAccount.jsx";
 import { Home } from "./screens/Home.jsx";
 import { Login } from "./screens/Login.jsx";
+import { Product } from "./screens/Product.jsx";
 
 const root = document.getElementById("root");
 
@@ -18,6 +19,7 @@ ReactDOM.createRoot(root).render(
         <Route path="login" element={<Login />} />
         <Route path="conta" element={<Account />} />
         <Route path="cadastro" element={<CreateAccount />} />
+        <Route path="product" element={<Product />} />
       </Route>
     </Routes>
   </BrowserRouter>,
