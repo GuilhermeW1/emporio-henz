@@ -3,6 +3,7 @@ import "dotenv/config";
 import cors from "cors";
 import {PrismaClient} from "@prisma/client";
 import userRoutes from "./routes/userRoutes.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
 const prisma = new PrismaClient();
 const app = ex();
 
@@ -16,6 +17,7 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/api/users", userRoutes);
+app.use("/api/categories", categoryRoutes);
 
 
 app.listen(3001, () => {
