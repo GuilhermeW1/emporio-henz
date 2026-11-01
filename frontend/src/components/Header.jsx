@@ -1,7 +1,16 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleNavigate = (path) => {
+    navigate(path);
+
+    setIsMenuOpen(false);
+  };
+
   return (
     <>
       <div
@@ -73,7 +82,7 @@ export default function Header() {
             </button>
 
             <button
-              onClick={() => console.log("Salvos")}
+              onClick={() => handleNavigate("/sobre")}
               className="font-bold text-sm w-full text-left flex-row flex gap-3"
             >
               <img src="/Market.png" alt="salvos" className="h-5 w-5" />
@@ -102,11 +111,14 @@ export default function Header() {
           <button onClick={() => setIsMenuOpen(true)}>
             <img src="/Menu.png" alt="menu" className="h-6.5 w-6.5 lg:hidden" />
           </button>
-          <img
-            src="/logo-small.png"
-            alt="logo"
-            className="w-32 h-8 lg:pl-8 lg:mt-4 "
-          />
+
+          <button onClick={() => handleNavigate("/")}>
+            <img
+              src="/logo-small.png"
+              alt="logo"
+              className="w-32 h-8 lg:pl-8 lg:mt-4 "
+            />
+          </button>
 
           <div className="hidden  mx-auto w-full max-w-150 h-[45px] lg:flex mt-4 bg items-center justify-between  bg-white rounded-lg">
             <input
@@ -134,12 +146,15 @@ export default function Header() {
               <span className="text-white text-sm hidden lg:block">Salvos</span>
             </div>
 
-            <div className="lg:h-[46px] lg:flex lg:flex-col lg:items-center">
+            <Link
+              to="conta"
+              className="lg:h-[46px] lg:flex lg:flex-col lg:items-center"
+            >
               <img src="/Perfil.png" alt="perfil" className="h-6.5 w-6.5" />
               <span className="text-white text-sm hidden lg:block">
                 Minha conta
               </span>
-            </div>
+            </Link>
           </div>
         </div>
 
