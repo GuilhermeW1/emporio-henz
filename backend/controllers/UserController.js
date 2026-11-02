@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
 import { User, ProfileType } from "../models/User.js";
 
@@ -74,8 +75,20 @@ export const loginUser = async (req, res) => {
             return res.status(401).json({ error: "Credenciais invalidas." });
         }
 
+        //gera token com dados do User
+        const token = jwt.sign(
+            {
+                id: userInstance.id,
+                email: userInstance.email,
+                profile: userInstance.profile
+            },
+            process.env.JWT_SECRET,
+            { expiresIn: "8h"}
+        );
+
         return res.status(200).json({
             message: "Login realizado com sucesso",
+            token,
             user: {
                 id: userInstance.id,
                 name: userInstance.name,
