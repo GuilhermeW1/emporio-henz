@@ -4,11 +4,11 @@ export function Button({
   children,
   alt = "button icon",
   className,
-  onPress,
+  onClick,
 }) {
   return (
     <button
-      onClick={onPress}
+      onClick={onClick}
       className={`flex items-center justify-center bg-[#005CA1] text-white w-full h-13 rounded-lg ${className}`}
     >
       {imgPath && (

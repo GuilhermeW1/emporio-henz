@@ -74,7 +74,7 @@ export default function Header() {
 
           <div className="gap-8 flex flex-col">
             <button
-              onClick={() => console.log("Salvos")}
+              onClick={() => handleNavigate("/salvos")}
               className="font-bold text-sm w-full text-left flex-row flex gap-3"
             >
               <img src="/Salvar.png" alt="salvos" className="h-5 w-5" />
@@ -141,10 +141,13 @@ export default function Header() {
               </span>
             </div>
 
-            <div className="lg:h-[46px] lg:flex lg:flex-col lg:items-center">
+            <Link
+              to="salvos"
+              className="lg:h-[46px] lg:flex lg:flex-col lg:items-center"
+            >
               <img src="/Salvar.png" alt="salvar" className="h-6.5 w-6.5" />
               <span className="text-white text-sm hidden lg:block">Salvos</span>
-            </div>
+            </Link>
 
             <Link
               to="conta"
