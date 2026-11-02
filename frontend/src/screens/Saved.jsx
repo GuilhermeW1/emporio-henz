@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../components/Button";
 import { createFolder, getFolder } from "../services/createFolder";
 
@@ -49,7 +49,8 @@ export function Saved() {
       {folders.map((item) => {
         console.log(item);
         return (
-          <div
+          <Link
+            to="/favoritos"
             key={item.name}
             className="flex gap-5 relative w-full h-35 border rounded-2xl border-gray-200 mb-4 "
           >
@@ -71,7 +72,7 @@ export function Saved() {
                 {item.itens.length ? item.itens.length : "0"} itens
               </span>
             </div>
-          </div>
+          </Link>
         );
       })}
 
