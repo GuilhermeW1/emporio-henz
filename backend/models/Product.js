@@ -1,7 +1,8 @@
 export class Product {
-    constructor(id = null, categoryId, viewCount = 0, description, price, images = []) {
+    constructor(id = null, name, categoryIds = [], viewCount = 0, description, price, images = []) {
         this._id = id;
-        this.categoryId = categoryId;
+        this.name = name;
+        this.categoryIds = categoryIds;
         this.description = description;
         this.price = price;
         this._viewCount = viewCount;
@@ -13,8 +14,12 @@ export class Product {
         return this._id;
     }
 
-    get categoryId(){
-        return this._categoryId;
+    get name(){
+        return this._name;
+    }
+
+    get categoryIds(){
+        return this._categoryIds;
     }
 
     get description() {
@@ -38,11 +43,22 @@ export class Product {
         this._id = value;
     }
 
-    set categoryId(value) {
-        if (!value || typeof value !== "number") {
-            throw new Error("O ID da categoria é obrigatorio e deve ser um numero");
+    set name(value) {
+        if (!value || typeof value !== "string" || value.trim().length < 2) {
+            throw new Error("O nome do produto é obrigatório e deve ter no minimo 2 caracteres.");
         }
-        this._categoryId = value;
+        this._name = value.trim();
+    }
+
+    set categoryIds(value) {
+        if (!Array.isArray(value) || value.length === 0) {
+            throw new Error("O produto deve ser associado a pelo menos uma categoria");
+        }
+        const hasInvalidId = value.some((id) => typeof id !== "number" || id <= 0);
+        if (hasInvalidId) {
+            throw new Error("Os Ids das categorias devem ser numeros validos");
+        }
+        this._categoryIds = value;
     }
 
     set description(value) {

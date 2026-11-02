@@ -43,12 +43,12 @@ model Category {
 
 model Product {
   id Int @id @default(autoincrement())
-  categoryId Int @map("category_id")
+  name String
   viewCount Int @default(0) @map("view_count")
   description String @db.Text
   price Float
 
-  category Category @relation(fields: [categoryId], references: [id])
+  categories Category[]
   images ProductImage[]
 
   @@map("products")

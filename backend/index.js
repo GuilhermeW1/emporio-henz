@@ -4,6 +4,7 @@ import cors from "cors";
 import {PrismaClient} from "@prisma/client";
 import userRoutes from "./routes/userRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
 const prisma = new PrismaClient();
 const app = ex();
 
@@ -18,6 +19,7 @@ app.get("/health", (req, res) => {
 
 app.use("/api/users", userRoutes);
 app.use("/api/categories", categoryRoutes);
+app.use("/api/products", productRoutes);
 
 
 app.listen(3001, () => {
