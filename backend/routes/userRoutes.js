@@ -11,11 +11,11 @@ import { requireAdmin, requireSelfOrAdmin } from "../middlewares/auth.js";
 
 const router = Router();
 
-//qualquer pessoa pode enviar e-mail e senha para tentar autenticar
+
+router.post("/register", registerUser);
 router.post("/login", loginUser);
 
-//apenas o perfil ADMIN pode registrar novos users, listar e remover
-router.post("/register", requireAdmin, registerUser);
+
 router.get("/", requireAdmin, getAllUsers);
 router.delete("/:id", requireAdmin, deleteUser);
 
