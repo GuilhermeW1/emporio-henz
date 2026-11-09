@@ -35,7 +35,7 @@ export class Product {
     }
 
     get images(){
-        return this
+        return this._images
     }
 
     //setters com validacao

@@ -6,7 +6,22 @@ const prisma = new PrismaClient();
 export const registerProduct = async (req, res) => {
     try {
         const {name, description, price, categoryIds, images} = req.body ?? {};
-        
+
+        if (!images || !Array.isArray(images) || images.length === 0) {
+            return res.status(400).json({ error: "É obrigatório cadastrar pelo menos 1 imagem para o produto." });
+        }
+
+        if (images && images.length > 5) {
+            return res.status(400).json({ error: "Um produto cadastrado pode ter no maximo 5 imagens" });
+        }
+
+        const normalizedColors = images.map(img => img.color?.trim().toLowerCase());
+        const uniqueColors = new Set(normalizedColors);
+
+        if (uniqueColors.size !== normalizedColors.length) {
+            return res.status(400).json({ error: "Não é permitido cadastrar imagens com cores duplicadas" });
+        }
+
         const productModel = new Product(
             null,
             name,
@@ -34,8 +49,11 @@ export const registerProduct = async (req, res) => {
                 categories: {
                     connect: productModel.categoryIds.map((id) => ({ id }))
                 },
-                images: productModel.images.length > 0 ? {
-                    create: productModel.images.map((imageUrl) => ({ url: imageUrl }))
+                images: productModel.images && productModel.images.length > 0 ? {
+                    create: productModel.images.map((img) => ({
+                        url: typeof img === 'string' ? img : img.url,
+                        color: (typeof img === 'object' && img.color) ? img.color : "Padrão"
+                    }))
                 } : undefined
             },
             include: {
@@ -117,6 +135,10 @@ export const updateProduct = async (req, res) => {
         const { id } = req.params;
         const { name, description, price, categoryIds, images } = req.body ?? {};
 
+        if (images && images.length > 5) {
+            return res.status(400).json({ error: "Um produto cadastrado pode ter no maximo 5 imagens "});
+        }
+
         const productId = Number(id);
 
         if (!productId || isNaN(productId)) {
@@ -174,7 +196,7 @@ export const updateProduct = async (req, res) => {
 
         return res.status(200).json({
             message: "Produto atualizado com sucesso!",
-            product: updateProduct
+            product: updatedProduct
         });
     } catch (error) {
         return res.status(400).json({error: error.message});
