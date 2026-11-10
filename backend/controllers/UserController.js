@@ -18,6 +18,30 @@ export const registerUser = async (req, res) => {
             return res.status(400).json({ error: "E-mail já cadastrado." });
         }
 
+        let isRequesterAdmin = false;
+        const authHeader = req.headers.authorization;
+
+        if (authHeader && authHeader.startsWith("Bearer ")) {
+            try {
+                const token = authHeader.split(" ")[1];
+                const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+                if (decoded.profile === ProfileType.ADMIN) {
+                    isRequesterAdmin = true;
+                }
+            } catch (error) {
+
+            }
+        }
+
+        let assignedProfile;
+
+        if (isRequesterAdmin) {
+            assignedProfile = profile || ProfileType.CLIENT;
+        } else {
+            assignedProfile = ProfileType.CLIENT;
+        }
+
         //instancia a classe User
         const userModel = new User(null, name, email, profile || ProfileType.CLIENT, password);
 
