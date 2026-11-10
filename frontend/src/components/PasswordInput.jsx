@@ -19,9 +19,9 @@ export function PasswordInput({
     return;
   };
   return (
-    <div className={`flex flex-col ${className}`}>
+    <div className={`flex  w-full flex-col ${className}`}>
       <span className="block font-bold self-start">{label}</span>
-      <div className="border rounded h-11 border-[#939393] w-68 flex items-center justify-between mt-3">
+      <div className="border rounded h-11 border-[#939393] min-w-68 flex items-center justify-between mt-3">
         <input
           name={name}
           value={value}
