@@ -21,7 +21,7 @@ ReactDOM.createRoot(root).render(
         <Route path="login" element={<Login />} />
         <Route path="conta" element={<Account />} />
         <Route path="cadastro" element={<CreateAccount />} />
-        <Route path="product" element={<Product />} />
+        <Route path="produto" element={<Product />} />
         <Route path="salvos" element={<Saved />} />
         <Route path="favoritos" element={<Favorites />} />
       </Route>
