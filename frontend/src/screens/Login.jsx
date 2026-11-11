@@ -38,8 +38,11 @@ export function Login() {
     <div className="flex w-screen bg-[#E0E0E0] pt-12 pr-12 pl-12 pb-15">
       <form
         onSubmit={login}
-        className=" bg-white  w-full rounded-2xl flex-col pt-12 flex items-center pb-12"
+        className=" bg-white mx-auto w-full rounded-2xl flex-col pt-12 flex items-center pb-12 max-w-[935px] lg:px-30 px-2"
       >
+        <span className="font-bold text-2xl hidden lg:block mb-8">
+          Acesse sua conta
+        </span>
         <Input
           name="email"
           value={formData.gmail}
@@ -49,7 +52,7 @@ export function Login() {
         />
 
         <PasswordInput
-          className="mt-3"
+          className="mt-3 lg:mt-12"
           label="Digite sua senha"
           name="password"
           value={formData.password}
@@ -66,7 +69,7 @@ export function Login() {
 
         <span className="font-bold mt-10 block">ou acesse com</span>
 
-        <button className="border rounded h-11 border-[#939393] w-68 flex mt-3 items-center justify-center gap-1 font-bold">
+        <button className="border rounded h-11 border-[#939393] min-w-68 flex mt-3 items-center justify-center gap-1 font-bold w-full">
           <img src="/aboutUs/Google.svg" alt="google" />
           Google
         </button>

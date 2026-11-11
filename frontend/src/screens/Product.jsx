@@ -51,113 +51,138 @@ export function Product() {
   const navigate = useNavigate();
   const [int, cents] = product.price.toFixed(2).split(".");
   return (
-    <div className="relative">
-      <div className="absolute top-4 left-4 z-10">
-        <button
-          onClick={() => navigate(-1)}
-          className="h-11 w-11 bg-white rounded flex items-center justify-center "
-        >
-          <img src="/Back.svg" alt="voltar" className="w-5 h-5 " />
-        </button>
-      </div>
-
-      <div className="absolute top-4 right-4 z-10">
-        <button
-          onClick={() => openModal()}
-          className="h-11 w-11 bg-white rounded flex items-center justify-center "
-        >
-          <img src="/Salvar.svg" alt="salvar" className="w-5 h-5 " />
-        </button>
-      </div>
-      {/* TODO: fazer o carrocel */}
-      <div className="relative">
-        <img src="/product/product-image.png" alt="productimage" />
-      </div>
-
-      <div className="pr-4 pl-4 mt-4">
-        <span>{product.name}</span>
-
-        <div className="flex gap-1 mt-2">
-          <span className="text-sm bg bg-[#007CD840] p-1 rounded-sm">
-            Fabricação: <span className="font-bold">20 dias uteis</span>
-          </span>
-          <span className="text-sm bg bg-[#007CD840] p-1 rounded-sm">
-            Com entrega e montagem
-          </span>
+    <div className="relative lg:max-w-300 lg:mx-auto">
+      <div className="block lg:hidden">
+        <div className="absolute top-4 left-4 z-10 ">
+          <button
+            onClick={() => navigate(-1)}
+            className="h-11 w-11 bg-white rounded flex items-center justify-center "
+          >
+            <img src="/Back.svg" alt="voltar" className="w-5 h-5 " />
+          </button>
         </div>
 
-        <div className="mt-6">
-          <span>
-            Acabamento:
-            <span className="font-bold">{product.colors[0] ?? "na"}</span>
-          </span>
+        <div className="absolute top-4 right-4 z-10">
+          <button
+            onClick={() => openModal()}
+            className="h-11 w-11 bg-white rounded flex items-center justify-center "
+          >
+            <img src="/Salvar.svg" alt="salvar" className="w-5 h-5 " />
+          </button>
+        </div>
+        {/* TODO: fazer o carrocel */}
+        <div className="relative">
+          <img src="/product/product-image.png" alt="productimage" />
+        </div>
+      </div>
 
-          <div className="flex gap-4 mt-3">
-            <div className="h-12 w-12 rounded-full bg-[#A58D5F] ring ring-offset-2 ring-[#A58D5F]"></div>
+      <div className="pr-4 pl-4 mt-4 lg:p-0 lg:flex lg:flex-col">
+        <div className="lg:flex lg:mt-8">
+          {/* desktop */}
+          <div className="hidden lg:flex mr-9 min-w-[784px]">
+            <div className="flex gap-3 flex-col">
+              <img src="/product/mini1.png" alt="miniatura 1" />
+              <img src="/product/mini2.png" alt="miniatura 2" />
+              <img src="/product/mini3.png" alt="miniatura 3" />
+              <img src="/product/mini4.png" alt="miniatura 4" />
+            </div>
+            <div className="rounded-xl overflow-hidden ml-4">
+              <img
+                src="/product/full.png"
+                alt="full"
+                className="min-w-[687px] min-h-[687px]"
+              />
+            </div>
+          </div>
 
-            <div className="h-12 w-12 rounded-full bg-[#4A3023] ring ring-offset-2 ring-[#4A3023]"></div>
+          <div className="flex flex-col justify-between">
+            <span>{product.name}</span>
+
+            <div className="flex gap-1 mt-2">
+              <span className="text-sm bg bg-[#007CD840] p-1 rounded-sm">
+                Fabricação: <span className="font-bold">20 dias uteis</span>
+              </span>
+              <span className="text-sm bg bg-[#007CD840] p-1 rounded-sm">
+                Com entrega e montagem
+              </span>
+            </div>
+
+            <div className="mt-6">
+              <span>
+                Acabamento:
+                <span className="font-bold">{product.colors[0] ?? "na"}</span>
+              </span>
+
+              <div className="flex gap-4 mt-3">
+                <div className="h-12 w-12 rounded-full bg-[#A58D5F] ring ring-offset-2 ring-[#A58D5F]"></div>
+
+                <div className="h-12 w-12 rounded-full bg-[#4A3023] ring ring-offset-2 ring-[#4A3023]"></div>
+              </div>
+            </div>
+
+            <div className="text-[#005CA1] mt-5 mb-2">
+              <span className="text-lg mr-1">R$</span>
+              <span className="text-4xl font-bold">{int}</span>
+              <span className="align-super">{"," + cents}</span>
+            </div>
+
+            <button className="flex items-center justify-center bg-[#005CA1] text-white w-full h-13 rounded-lg">
+              <img
+                src="/whatsapp-icon.svg"
+                alt="whatsapp-icon"
+                className="max-w-8 max-h-7 mr-2 "
+              />{" "}
+              Entre em contato
+            </button>
+
+            <div className="lg:mt-6">
+              <span className="font-bold">Principais caracteristicas</span>
+              <ul className="text-gray-700">
+                {product.characteristics.map((item) => {
+                  return <li key={item}>. {item}</li>;
+                })}
+              </ul>
+            </div>
+            {/* TODO: colocar localizacao */}
+            <div className="flex gap-4 bg-[#64646433]/20 rounded-2xl border border-gray-200 mt-8">
+              <img src="/product/amostras.png" alt="amostras" />
+              <div className="flex flex-col gap-2">
+                <span className="font-bold">Experimente as amostras</span>
+                <span>
+                  Visite nossa loja e conheça de perto a qualidade dos materiais
+                </span>
+                <a href="" className="flex text-[#005CA1]">
+                  <img src="localPin.png" alt="pin" />
+                  Ver localizacao
+                </a>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="text-[#005CA1] mt-5 mb-2">
-          <span className="text-lg mr-1">R$</span>
-          <span className="text-4xl font-bold">{int}</span>
-          <span className="align-super">{"," + cents}</span>
-        </div>
-
-        <button className="flex items-center justify-center bg-[#005CA1] text-white w-full h-13 rounded-lg">
-          <img
-            src="/whatsapp-icon.svg"
-            alt="whatsapp-icon"
-            className="max-w-8 max-h-7 mr-2 "
-          />{" "}
-          Entre em contato
-        </button>
-
-        <div>
-          <span className="font-bold">Principais caracteristicas</span>
-          <ul className="text-gray-700">
-            {product.characteristics.map((item) => {
-              return <li key={item}>. {item}</li>;
-            })}
-          </ul>
-        </div>
-        {/* TODO: colocar localizacao */}
-        <div className="flex gap-4 bg-[#64646433]/20 rounded-2xl border border-gray-200 mt-8">
-          <img src="/product/amostras.png" alt="amostras" />
-          <div className="flex flex-col gap-2">
-            <span className="font-bold">Experimente as amostras</span>
-            <span>
-              Visite nossa loja e conheça de perto a qualidade dos materiais
-            </span>
-            <a href="" className="flex text-[#005CA1]">
-              <img src="localPin.png" alt="pin" />
-              Ver localizacao
-            </a>
+        <div className="lg:max-w-[784px]">
+          <div className="mt-8">
+            <span className="font-bold">Descrição do produto</span>
+            <span>{product.description}</span>
           </div>
-        </div>
 
-        <div className="mt-8">
-          <span className="font-bold">Descrição do produto</span>
-          <span>{product.description}</span>
-        </div>
-
-        <div className="mt-6 text-sm">
-          <table>
-            <tbody>
-              {product.productSpecs.map((spec, idx) => {
-                return (
-                  <tr
-                    key={spec.label}
-                    className={`py-2 transition-colors ${idx % 2 === 0 ? "bg-white" : "bg-gray-300"}`}
-                  >
-                    <td className="p-1">{spec.label}</td>
-                    <td className="p-1">{spec.value}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <div className="mt-6 text-sm">
+            <table className="w-full lg:border-collapse">
+              <tbody>
+                {product.productSpecs.map((spec, idx) => {
+                  return (
+                    <tr
+                      key={spec.label}
+                      className={`py-2 transition-colors ${idx % 2 === 0 ? "bg-white" : "bg-gray-300"}`}
+                    >
+                      <td className="p-1 lg:w-1/2">{spec.label}</td>
+                      <td className="p-1 lg:w-1/2">{spec.value}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <div className="mt-8 mb-17">

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../components/Button";
 import { createFolder, getFolder } from "../services/createFolder";
 
@@ -31,7 +31,7 @@ export function Saved() {
   }, []);
 
   return (
-    <div className="pr-4 pl-4">
+    <div className="pr-4 pl-4 lg:max-w-300  lg:flex lg:flex-col lg:w-full lg:mx-auto ">
       <div className="flex items-center pt-5">
         <button type="button" onClick={() => navigation(-1)}>
           <img src="Back.svg" alt="voltar" className="h-6" />
@@ -45,35 +45,39 @@ export function Saved() {
           Organize seus produtos salvos em pastas para acessar depois.
         </span>
       </div>
+      <div className="flex gap-3 flex-wrap">
+        {folders.map((item) => {
+          console.log(item);
+          return (
+            <Link
+              to="/favoritos"
+              key={item.name}
+              className="flex gap-5 relative w-full h-35 border rounded-2xl border-gray-200 mb-4 lg:max-w-[380px]"
+            >
+              <img
+                src="treDots.svg"
+                alt="..."
+                className="absolute top-5 right-2"
+              />
+              <img src="favoriteImg.png" alt="img" />
+              <div className="flex-col">
+                <span className="block font-bold text-lg pt-5">
+                  {item.name}
+                </span>
+                {item.name === "Favoritos" ? (
+                  <span className="block pt-1">Pasta padrao</span>
+                ) : (
+                  <></>
+                )}
 
-      {folders.map((item) => {
-        console.log(item);
-        return (
-          <div
-            key={item.name}
-            className="flex gap-5 relative w-full h-35 border rounded-2xl border-gray-200 mb-4 "
-          >
-            <img
-              src="treDots.svg"
-              alt="..."
-              className="absolute top-5 right-2"
-            />
-            <img src="favoriteImg.png" alt="img" />
-            <div className="flex-col">
-              <span className="block font-bold text-lg pt-5">{item.name}</span>
-              {item.name === "Favoritos" ? (
-                <span className="block pt-1">Pasta padrao</span>
-              ) : (
-                <></>
-              )}
-
-              <span className="block pt-8 text-[#005CA1]">
-                {item.itens.length ? item.itens.length : "0"} itens
-              </span>
-            </div>
-          </div>
-        );
-      })}
+                <span className="block pt-8 text-[#005CA1]">
+                  {item.itens.length ? item.itens.length : "0"} itens
+                </span>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
 
       <Button
         imgPath="plus.svg"

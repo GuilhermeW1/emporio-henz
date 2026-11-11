@@ -106,7 +106,7 @@ export default function Header() {
         </div>
       </div>
 
-      <header className="lg:h-[111px] lg:pt-0 h-[152px] w-full bg-[#123854] flex-col  pt-4">
+      <header className="lg:h-[111px] lg:pt-0 h-[152px] w-full bg-[#123854] flex-col  pt-4 relative z-30">
         <div className="lg:h-[77px] max-w-[380px] lg:max-w-full mx-auto w-full flex h-8  items-center justify-between">
           <button onClick={() => setIsMenuOpen(true)}>
             <img src="/Menu.png" alt="menu" className="h-6.5 w-6.5 lg:hidden" />
@@ -130,7 +130,10 @@ export default function Header() {
           </div>
 
           <div className="lg:gap-6 gap-4 flex lg:pr-8 lg:items-center lg:mt-4 ">
-            <div className="lg:h-[46px] lg:flex lg:flex-col lg:items-center">
+            <Link
+              to="sobre"
+              className="lg:h-[46px] lg:flex lg:flex-col lg:items-center"
+            >
               <img
                 src="/Loja.svg"
                 alt="loja"
@@ -139,7 +142,7 @@ export default function Header() {
               <span className="text-white text-sm hidden lg:block">
                 Sobre a loja
               </span>
-            </div>
+            </Link>
 
             <Link
               to="salvos"

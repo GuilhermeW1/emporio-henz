@@ -4,6 +4,7 @@ import App from "./App.jsx";
 import { AboutUs } from "./screens/AboutUs.jsx";
 import { Account } from "./screens/Account.jsx";
 import { CreateAccount } from "./screens/CreateAccount.jsx";
+import { Favorites } from "./screens/Favorites.jsx";
 import { Home } from "./screens/Home.jsx";
 import { Login } from "./screens/Login.jsx";
 import { Product } from "./screens/Product.jsx";
@@ -20,8 +21,9 @@ ReactDOM.createRoot(root).render(
         <Route path="login" element={<Login />} />
         <Route path="conta" element={<Account />} />
         <Route path="cadastro" element={<CreateAccount />} />
-        <Route path="product" element={<Product />} />
+        <Route path="produto" element={<Product />} />
         <Route path="salvos" element={<Saved />} />
+        <Route path="favoritos" element={<Favorites />} />
       </Route>
     </Routes>
   </BrowserRouter>,
