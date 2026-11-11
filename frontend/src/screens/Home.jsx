@@ -1,8 +1,12 @@
 import { HighlightCard } from "../components/HighlightCard";
 import { RecentViewCard } from "../components/RecentViewCart";
 import { SectionCard } from "../components/SectionCard";
+import { seed } from "../services/createFolder";
 
 export function Home() {
+  //popula o localstorage
+  seed();
+
   return (
     <>
       <div className="h-94 bg-[#007CD840] flex relative overflow-hidden">

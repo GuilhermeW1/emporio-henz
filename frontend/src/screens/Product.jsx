@@ -1,5 +1,8 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button } from "../components/Button";
 import { RecentViewCard } from "../components/RecentViewCart";
+import { addItem, getFolder } from "../services/createFolder";
 
 const product = {
   id: 1,
@@ -34,6 +37,17 @@ const product = {
 };
 
 export function Product() {
+  const [visibility, setVisibility] = useState(false);
+
+  const openModal = () => {
+    setVisibility(true);
+  };
+
+  const handleSaveProduct = async (folderId) => {
+    await addItem(folderId, product);
+    setVisibility(false);
+  };
+
   const navigate = useNavigate();
   const [int, cents] = product.price.toFixed(2).split(".");
   return (
@@ -49,13 +63,13 @@ export function Product() {
 
       <div className="absolute top-4 right-4 z-10">
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => openModal()}
           className="h-11 w-11 bg-white rounded flex items-center justify-center "
         >
-          <img src="/Salvar.svg" alt="voltar" className="w-5 h-5 " />
+          <img src="/Salvar.svg" alt="salvar" className="w-5 h-5 " />
         </button>
       </div>
-
+      {/* TODO: fazer o carrocel */}
       <div className="relative">
         <img src="/product/product-image.png" alt="productimage" />
       </div>
@@ -74,7 +88,7 @@ export function Product() {
 
         <div className="mt-6">
           <span>
-            Acabamento:{" "}
+            Acabamento:
             <span className="font-bold">{product.colors[0] ?? "na"}</span>
           </span>
 
@@ -86,9 +100,7 @@ export function Product() {
         </div>
 
         <div className="text-[#005CA1] mt-5 mb-2">
-          <span an className="text-lg mr-1">
-            R$
-          </span>
+          <span className="text-lg mr-1">R$</span>
           <span className="text-4xl font-bold">{int}</span>
           <span className="align-super">{"," + cents}</span>
         </div>
@@ -152,6 +164,71 @@ export function Product() {
           <span className="font-bold block mb-1">Voce tambem pode gostar</span>
 
           <RecentViewCard />
+        </div>
+      </div>
+      <SaveModal
+        isOpen={visibility}
+        onClose={() => setVisibility(false)}
+        onClick={handleSaveProduct}
+      />
+    </div>
+  );
+}
+
+function SaveModal({ isOpen, onClose, onClick }) {
+  const [folders, setFolders] = useState([]);
+  useEffect(() => {
+    let ignore = false;
+
+    async function load() {
+      const data = await getFolder();
+      if (!ignore) setFolders(data);
+    }
+
+    load();
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  if (!isOpen) return;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
+      <div className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+        <button
+          onClick={onClose}
+          className="absolute top-5 right-5 text-gray-500 hover:text-gray-700"
+          aria-label="Fechar"
+        >
+          <img src="/close.svg" alt="fechar" />
+        </button>
+
+        <h2 className="text-xl font-bold text-gray-900 mb-6">Salvar produto</h2>
+
+        {folders.map((folder) => {
+          return (
+            <button
+              key={folder.id}
+              type="button"
+              onClick={() => onClick(folder.id)}
+              className="flex w-full items-center justify-between border border-gray-300 rounded-2xl pr-4 mb-4 cursor-pointer"
+            >
+              <img src="saveFavorite.png" alt="favoriteImage" />
+              <span className="font-bold">{folder.name}</span>
+              <img src="plusBlue.svg" alt="mais" />
+            </button>
+          );
+        })}
+
+        <div className="flex flex-col gap-2">
+          <Button
+            imgPath={"/plus.svg"}
+            onClick={() => console.log("criara pasta")}
+          >
+            Criar pasta
+          </Button>
         </div>
       </div>
     </div>
