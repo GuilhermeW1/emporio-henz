@@ -7,6 +7,7 @@ import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import uploadRoutes from "./routes/upload.js";
 import userRoutes from "./routes/userRoutes.js";
+import productImageRoutes from "./routes/productImagesRoutes.js";
 const prisma = new PrismaClient();
 const app = ex();
 
@@ -22,6 +23,7 @@ app.get("/health", (req, res) => {
 app.use("/api/users", userRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/product-images", productImageRoutes);
 
 app.use("/uploads", ex.static(path.resolve(process.cwd(), "uploads")));
 app.use("/api/upload", uploadRoutes);
