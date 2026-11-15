@@ -1,12 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 import { Category } from "../models/Category.js";
+import { deleteImage } from "../services/storageService.js";
 
 const prisma = new PrismaClient();
 
 //cadastro de categoria
 export const registerCategory = async (req, res) => {
   try {
-    const { name } = req.body ?? {};
+    const { name, imageUrl } = req.body ?? {};
 
     if (!name || name.trim() === "") {
       return res.status(400).json({ error: "Nome da categoria é obrigatorio" });
@@ -25,6 +26,7 @@ export const registerCategory = async (req, res) => {
     const newCategory = await prisma.category.create({
       data: {
         name: categoryModel.name,
+        imageUrl: imageUrl,
       },
     });
 
@@ -78,7 +80,7 @@ export const getCategoryById = async (req, res) => {
 export const updateCategory = async (req, res) => {
   try {
     const id = Number(req.params.id);
-    const { name } = req.body ?? {};
+    const { name, imageUrl } = req.body ?? {};
 
     if (isNaN(id)) {
       return res
@@ -110,9 +112,13 @@ export const updateCategory = async (req, res) => {
       }
     }
 
+    if (imageUrl !== existingCategory.imageUrl) {
+      await deleteImage(existingCategory.imageUrl);
+    }
+
     const updatedCategory = await prisma.category.update({
       where: { id },
-      data: { name: categoryModel.name },
+      data: { name: categoryModel.name, imageUrl: imageUrl },
       select: { id: true, name: true },
     });
 
@@ -142,7 +148,13 @@ export const deleteCategory = async (req, res) => {
 
     //impedir exclusao caso tenha produtos vinculados
     const linkedProducts = await prisma.product.findFirst({
-      where: { categoryId: id },
+      where: {
+        categories: {
+          some: {
+            id: Number(id),
+          },
+        },
+      },
     });
 
     if (linkedProducts) {
@@ -152,6 +164,7 @@ export const deleteCategory = async (req, res) => {
       });
     }
 
+    await deleteImage(categoryExists.imageUrl);
     await prisma.category.delete({ where: { id } });
 
     return res.status(200).json({ message: "Categoria deletada" });

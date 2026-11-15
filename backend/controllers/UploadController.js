@@ -1,8 +1,6 @@
 import { saveImageLocally } from "../services/storageService.js";
 
 export async function uploadImages(req, res) {
-  console.log("Content-Type recebido:", req.headers["content-type"]);
-  console.log("req.files:", req.files);
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "Nenhuma imagem foi enviada" });

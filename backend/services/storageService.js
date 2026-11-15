@@ -23,3 +23,17 @@ export async function saveImageLocally(file, baseUrl) {
 
   return `${baseUrl}/uploads/${fileName}`;
 }
+
+export async function deleteImage(imageUrl) {
+  if (!imageUrl) return;
+
+  try {
+    const fileName = imageUrl.split("/").pop().split("?")[0];
+    const filePath = path.resolve("uploads", fileName);
+
+    await fs.unlink(filePath);
+  } catch (error) {
+    throw new Error("Erro ao exluir imagem" + error);
+    console.error(error);
+  }
+}

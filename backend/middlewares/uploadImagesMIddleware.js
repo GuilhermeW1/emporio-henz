@@ -7,12 +7,6 @@ const upload = multer({
     files: 5,
   },
   fileFilter: (req, file, cb) => {
-    console.log("Arquivo recebido no Multer:", {
-      fieldname: file.fieldname,
-      originalname: file.originalname,
-      mimetype: file.mimetype,
-    });
-
     const allowedMimes = ["image/jpeg", "image/png", "image/webp"];
     const allowedExts = [".jpg", ".jpeg", ".png", ".webp"];
     const ext = path.extname(file.originalname).toLowerCase();
@@ -44,11 +38,11 @@ export function uploadImagesMiddleware(req, res, next) {
           .status(400)
           .json({ error: "Cada imagem deve ter no máximo 5MB." });
       }
-      return res.status(400).json({ error: err.message });
+      return res.status(400).json({ error: err.message + err.stack });
     }
 
     if (err) {
-      return res.status(400).json({ error: err.message });
+      return res.status(400).json({ error: err.message + "llllllll" });
     }
 
     next();
