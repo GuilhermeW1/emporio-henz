@@ -1,9 +1,25 @@
+import { useEffect, useState } from "react";
 import { HighlightCard } from "../components/HighlightCard";
 import { RecentViewCard } from "../components/RecentViewCart";
 import { SectionCard } from "../components/SectionCard";
+import { api } from "../services/api";
 import { seed } from "../services/createFolder";
 
 export function Home() {
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    async function getCategories() {
+      try {
+        const data = await api("GET", "/categories");
+        setCategories(data);
+      } catch (error) {
+        console.error("Falha ao carregar categorias", error);
+      }
+    }
+
+    getCategories();
+  }, []);
+
   //popula o localstorage
   seed();
 
@@ -58,12 +74,15 @@ export function Home() {
 
       <div className="relative -mt-10  max-w-[1200px] mx-auto px-3 lg:px-0">
         <div className="flex flex-wrap gap-3 justify-center">
-          <SectionCard name="Quarto" imgPath="/armario.png" />
-          <SectionCard name="Quarto" imgPath="/armario.png" />
-          <SectionCard name="Quarto" imgPath="/armario.png" />
-          <SectionCard name="Quarto" imgPath="/armario.png" />
-          <SectionCard name="Quarto" imgPath="/armario.png" />
-          <SectionCard name="Quarto" imgPath="/armario.png" />
+          {categories.map((category) => {
+            return (
+              <SectionCard
+                key={category.id}
+                name={category.name}
+                imgPath={category.imageUrl}
+              />
+            );
+          })}
         </div>
 
         <hr className="border-t border-[#6464644D] my-12 lg:hidden" />
