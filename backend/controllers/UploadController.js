@@ -6,7 +6,7 @@ export async function uploadImages(req, res) {
       return res.status(400).json({ error: "Nenhuma imagem foi enviada" });
     }
 
-    const baseUrl = `${req.protocol}://${req.get("host")}`;
+    const baseUrl = process.env.API_URL || `${req.protocol}://${req.get("host")}`;
 
     const urls = await Promise.all(
       req.files.map((file) => saveImageLocally(file, baseUrl)),
