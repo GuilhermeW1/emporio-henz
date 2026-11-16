@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Input } from "../components/Input";
 import { PasswordInput } from "../components/PasswordInput";
+import { api } from "../services/api";
 
 export function CreateAccount() {
   const [loading, setLoading] = useState(false);
+  const navigation = useNavigate();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -22,9 +24,23 @@ export function CreateAccount() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    try {
+      const res = await api("POST", "/users/register", {
+        body: {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        },
+      });
+      console.log(res);
+      navigation(-1);
+    } catch (error) {
+      alert("error" + error);
+    }
 
     console.log(formData);
     setLoading(false);
@@ -34,7 +50,7 @@ export function CreateAccount() {
     <div className="flex w-screen bg-[#E0E0E0] pt-12 pr-12 pl-12 pb-15">
       <form
         onSubmit={handleSubmit}
-        className=" bg-white  w-full rounded-2xl flex-col pt-12 flex items-center pb-12 gap-3"
+        className=" bg-white max-w-[935px] mx-auto lg:px-30  w-full rounded-2xl flex-col pt-12 flex items-center pb-12 gap-3"
       >
         <Input
           name="name"

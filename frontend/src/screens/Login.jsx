@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import { Input } from "../components/Input";
 import { PasswordInput } from "../components/PasswordInput";
 
 export function Login() {
+  const { signIn } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -23,7 +26,8 @@ export function Login() {
       }),
     });
     const data = await response.json();
-    console.log(data);
+    signIn(data.user, data.token);
+    navigate("/");
   };
 
   const handelChange = (e) => {
