@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { Input } from "../components/Input";
 import { PasswordInput } from "../components/PasswordInput";
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
 export function Login() {
   const { signIn } = useAuth();
@@ -15,7 +16,7 @@ export function Login() {
   const login = async (e) => {
     e.preventDefault();
     const { email, password } = formData;
-    const response = await fetch(`http://localhost:3001/api/users/login`, {
+    const response = await fetch(`${BASE_URL}/api/users/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
