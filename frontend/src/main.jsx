@@ -1,5 +1,6 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router";
+import { ToastContainer } from "react-toastify";
 import { AuthProvider } from "../context/AuthProvider.jsx";
 import App from "./App.jsx";
 import { AboutUs } from "./screens/AboutUs.jsx";
@@ -35,5 +36,15 @@ ReactDOM.createRoot(root).render(
         </Route>
       </Routes>
     </BrowserRouter>
+
+    <ToastContainer
+      position="bottom-right"
+      autoClose={3000}
+      hideProgressBar={false}
+      newestOnTop
+      closeOnClick
+      pauseOnHover
+      theme="colored"
+    />
   </AuthProvider>,
 );

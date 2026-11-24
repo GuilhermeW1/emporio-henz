@@ -1,7 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useAuth } from "../../context/AuthContext";
 //TODO: logica de mostrar dados de usuario ou pedir para entrar na conta
 export function Account() {
+  const { user, signOut } = useAuth();
   const navigate = useNavigate();
+
+  const logOut = () => {
+    signOut();
+    toast.success("Conta deslogada com sucesso");
+    navigate("/");
+  };
   return (
     <div className="fixed inset-0 z-50 bg-black/40 flex justify-end transition-opacity">
       <div className="w-full lg:w-1/2 lg:max-w-xl h-full bg-white overflow-y-auto p-6 lg:p-10 shadow-2xl relative flex flex-col justify-start">
@@ -18,12 +27,23 @@ export function Account() {
           <h1 className="font-bold text-xl lg:text-2xl text-[#1D1D24]">
             Dados da conta
           </h1>
-          <Link
-            className=" bg-gray-300 w-30 h-10 flex items-center justify-center rounded border-gray-500 border mt-5"
-            to="/login"
-          >
-            Login
-          </Link>
+
+          {user === null || user === undefined ? (
+            <Link
+              className=" bg-gray-300 w-30 h-10 flex items-center justify-center rounded border-gray-500 border mt-5"
+              to="/login"
+            >
+              Login
+            </Link>
+          ) : (
+            <button
+              type="button"
+              className=" bg-gray-300 w-30 h-10 flex items-center justify-center rounded border-gray-500 border mt-5"
+              onClick={logOut}
+            >
+              Sair
+            </button>
+          )}
 
           <div className="w-58">
             <div className="mt-25">
@@ -31,7 +51,9 @@ export function Account() {
                 <img src="/PerfilBlack.svg" alt="perfil" className="h-7 w-7 " />
                 <div>
                   <span className="font-bold">Nome</span>
-                  <span className="opacity-50 block">Nome</span>
+                  <span className="opacity-50 block">
+                    {user ? user?.name : "Nome"}
+                  </span>
                 </div>
               </div>
 
@@ -40,7 +62,9 @@ export function Account() {
                 <div>
                   <span className="font-bold">@gmail</span>
                   <span className="opacity-50 block">
-                    E-mail que você recebe as comunicações.
+                    {user
+                      ? user?.email
+                      : "E-mail que você recebe as comunicações."}
                   </span>
                 </div>
               </div>

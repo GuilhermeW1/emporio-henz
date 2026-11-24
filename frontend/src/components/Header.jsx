@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Header() {
+  const { isAdmin } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -13,6 +15,7 @@ export default function Header() {
 
   return (
     <>
+      {/* mobile */}
       <div
         onClick={() => setIsMenuOpen(false)}
         className={`fixed inset-0 z-40 bg-black transition-opacity duration-300 ${
@@ -126,10 +129,25 @@ export default function Header() {
               placeholder="Busque por moveis para sua casa"
             />
 
-            <img src="/Busca.svg" className="pr-4 text-[#1D1D24]" />
+            <img src="/Busca.svg" alt="Busca" className="pr-4 text-[#1D1D24]" />
           </div>
 
           <div className="lg:gap-6 gap-4 flex lg:pr-8 lg:items-center lg:mt-4 ">
+            {isAdmin && (
+              <Link
+                to="admin"
+                className="lg:h-[46px] lg:flex lg:flex-col lg:items-center"
+              >
+                <img
+                  src="/dashboard.svg"
+                  alt="dashboard"
+                  className="hidden lg:block h-6 w-6"
+                />
+                <span className="text-white text-sm hidden lg:block">
+                  Dashboard
+                </span>
+              </Link>
+            )}
             <Link
               to="sobre"
               className="lg:h-[46px] lg:flex lg:flex-col lg:items-center"

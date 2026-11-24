@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useAuth } from "../../context/AuthContext";
 import { Input } from "../components/Input";
 import { PasswordInput } from "../components/PasswordInput";
@@ -28,6 +29,7 @@ export function Login() {
     });
     const data = await response.json();
     signIn(data.user, data.token);
+    toast.success("Login realizado com sucesso!");
     navigate("/");
   };
 

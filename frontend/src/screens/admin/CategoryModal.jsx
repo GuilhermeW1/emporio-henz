@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { api } from "../../services/api";
 export function CategoryModal({ category, onClose, onSaved }) {
   const isEditing = !!category;
@@ -17,11 +18,17 @@ export function CategoryModal({ category, onClose, onSaved }) {
   }
 
   async function handleSubmit(e) {
+    e.preventDefault();
+
     const rawToken = localStorage.getItem("token");
     const token = rawToken ? JSON.parse(rawToken) : null;
-    e.preventDefault();
+
     setError("");
     setSaving(true);
+
+    const toastId = toast.loading(
+      imageFile ? "Enviando imagem..." : "Salvando categoria...",
+    );
 
     try {
       let finalImageUrl = category?.imageUrl || null;
@@ -33,8 +40,10 @@ export function CategoryModal({ category, onClose, onSaved }) {
         const uploadResponse = await api("POST", "/upload", {
           body: formData,
         });
-        console.log(uploadResponse.urls[0]);
         finalImageUrl = uploadResponse.imageUrl || uploadResponse.urls[0];
+
+        // Atualiza o texto do mesmo toast para a segunda etapa
+        toast.update(toastId, { render: "Salvando categoria..." });
       }
 
       const payload = {
@@ -42,7 +51,6 @@ export function CategoryModal({ category, onClose, onSaved }) {
         imageUrl: finalImageUrl,
       };
 
-      console.log(payload);
       if (isEditing) {
         await api("PUT", `/categories/${category.id}`, {
           headers: {
@@ -59,15 +67,31 @@ export function CategoryModal({ category, onClose, onSaved }) {
         });
       }
 
+      toast.update(toastId, {
+        render: isEditing
+          ? "Categoria atualizada com sucesso!"
+          : "Categoria criada com sucesso!",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+
       onSaved();
       onClose();
     } catch (err) {
-      setError(err.message);
+      const errorMessage = err.message || "Erro ao salvar a categoria.";
+      setError(errorMessage);
+
+      toast.update(toastId, {
+        render: errorMessage,
+        type: "error",
+        isLoading: false,
+        autoClose: 4000,
+      });
     } finally {
       setSaving(false);
     }
   }
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
       <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">

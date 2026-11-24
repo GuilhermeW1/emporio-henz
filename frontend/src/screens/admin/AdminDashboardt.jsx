@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { Button } from "../../components/Button.jsx";
 import { api } from "../../services/api.js";
 import { CategoryModal } from "./CategoryModal";
@@ -75,19 +76,34 @@ export function AdminDashboard() {
   }
 
   async function handleDeleteCategory(id, name) {
-    if (!window.confirm(`Deseja realmente excluir a categoria "${name}"?`))
+    if (!window.confirm(`Deseja realmente excluir a categoria "${name}"?`)) {
       return;
+    }
+
+    const toastId = toast.loading(`Excluindo categoria "${name}"...`);
 
     try {
       await api("Delete", `/categories/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+
       setCategories((prev) => prev.filter((item) => item.id !== id));
+
+      toast.update(toastId, {
+        render: `Categoria "${name}" excluída com sucesso!`,
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
     } catch (error) {
-      alert(
-        error.message ||
+      toast.update(toastId, {
+        render:
+          error.message ||
           "Não foi possível excluir. Verifique se há produtos vinculados.",
-      );
+        type: "error",
+        isLoading: false,
+        autoClose: 4000,
+      });
     }
   }
 
